@@ -3,6 +3,7 @@ import * as React from "react"
 import * as ReactDOM from "react-dom/client"
 import { BrowserRouter } from "react-router-dom"
 import { App } from "./App"
+import { SideBarDrawerProvider } from "./contexts/SideBarDrawerContext"
 import { theme } from "./styles/theme"
 
 
@@ -12,12 +13,14 @@ const root = ReactDOM.createRoot(container)
 
 root.render(
   <React.StrictMode>
-    <BrowserRouter>
-      <ChakraProvider theme={theme}>
-        <ColorModeScript />
-        <App />
-      </ChakraProvider>
-    </BrowserRouter>
+    <SideBarDrawerProvider>
+      <BrowserRouter>
+        <ChakraProvider theme={theme}>
+          <ColorModeScript />
+          <App />
+        </ChakraProvider>
+      </BrowserRouter>
+    </SideBarDrawerProvider>
   </React.StrictMode>,
 )
 

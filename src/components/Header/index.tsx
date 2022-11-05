@@ -1,9 +1,17 @@
-import { Flex, Image, Text, useBreakpointValue } from "@chakra-ui/react";
+import { Flex, Icon, IconButton, useBreakpointValue } from "@chakra-ui/react";
+import { RiMenuLine } from "react-icons/ri";
+import { useSidebarDrawer } from "../../contexts/SideBarDrawerContext";
 import { BannerGitHub } from "./BannerGitHub";
+import { Logo } from "./Logo";
 import { SearchBox } from "./SearchBox";
 
 export function Header() {
-    const isWideVersion = useBreakpointValue({});
+    const { onOpen } = useSidebarDrawer();
+
+    const isWideVersion = useBreakpointValue({
+        base: false,
+        lg: true,
+    }, 'lg');
 
     return (
         <Flex
@@ -16,18 +24,25 @@ export function Header() {
             paddingX="6"
             alignItems="center"
         >
-            <Text
-                fontSize={['2xl', '3xl']}
-                fontWeight="bold"
-                letterSpacing="tight"
-                w="64"
-                color={'green.500'}
-            >
-                emfcars
-                <Text as="span" ml="1" color="yellow.500">.</Text>
-            </Text>
 
-            <SearchBox />
+            {
+                !isWideVersion && (
+                    <IconButton
+                        aria-label="Open navigation"
+                        icon={<Icon as={RiMenuLine} />}
+                        fontSize="24"
+                        variant="unstyled"
+                        onClick={onOpen}
+                        marginRight="2"
+                    >
+
+                    </IconButton>
+                )
+            }
+            <Logo />
+
+            {isWideVersion && <SearchBox />}
+
             <BannerGitHub showProfileData={isWideVersion} />
         </Flex>
     );

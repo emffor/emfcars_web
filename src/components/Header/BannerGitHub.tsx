@@ -9,12 +9,12 @@ export function BannerGitHub({ showProfileData = true }: ProfileProps) {
     return (
         <Flex
             align="center"
-            bg="green.500"
+            bg="gray.50"
             p="1"
             borderRadius="lg"
             ml="auto"
             _hover={{
-                bgColor: 'green.600'
+                bgColor: "gray.100"
             }}
         >
             {
@@ -26,11 +26,11 @@ export function BannerGitHub({ showProfileData = true }: ProfileProps) {
                         mr="4"
                         pr="4"
                         py="1"
-                        borderColor="gray.100"
+                        borderColor="white"
                         borderRightWidth="1px"
                     >
                         <Link
-                            color="gray.100"
+                            color="gray.500"
                             fontWeight="600"
                             fontSize="13"
                             pl="2"
@@ -40,7 +40,7 @@ export function BannerGitHub({ showProfileData = true }: ProfileProps) {
                             /emfcars_api
                         </Link>
                         <Link
-                            color="gray.100"
+                            color="gray.500"
                             fontWeight="600"
                             fontSize="13"
                             pl="2"
@@ -60,10 +60,10 @@ export function BannerGitHub({ showProfileData = true }: ProfileProps) {
             >
                 <Icon
                     as={ImGithub}
-                    fontSize="35"
-                    color="gray.100"
+                    fontSize={"4xl"}
+                    color="gray.500"
                     pt="1"
-                    pr="2"
+                    pr={showProfileData ? "2" : "0"}
                 />
             </Link>
         </Flex>
