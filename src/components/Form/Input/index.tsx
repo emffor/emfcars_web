@@ -19,13 +19,13 @@ export function Input({ name, label, ...rest }: InputProps) {
             <ChakraInput
                 name={name}
                 id={name}
-                focusBorderColor='yellow.500'
-                bgColor='gray.50'
+                focusBorderColor='gray.500'
+                bgColor='gray.100'
                 variant={"filled"}
-                _hover={{
-                    bgColor: 'gray.100'
-                }}
                 size="lg"
+                _hover={{
+                    bgColor: 'gray.50'
+                }}
                 {...rest}
             />
         </FormControl>
