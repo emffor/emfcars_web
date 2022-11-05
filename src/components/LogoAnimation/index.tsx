@@ -1,4 +1,5 @@
 import * as React from "react"
+
 import {
   chakra,
   keyframes,
@@ -6,14 +7,16 @@ import {
   forwardRef,
   usePrefersReducedMotion,
 } from "@chakra-ui/react"
-import logo from "./logo.svg"
+
+import logo from "../../assets/logo/emfcars.svg";
 
 const spin = keyframes`
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
 `
 
-export const Logo = forwardRef<ImageProps, "img">((props, ref) => {
+export const LogoAnimation = forwardRef<ImageProps, "img">((props, ref) => {
+
   const prefersReducedMotion = usePrefersReducedMotion()
 
   const animation = prefersReducedMotion
@@ -22,3 +25,9 @@ export const Logo = forwardRef<ImageProps, "img">((props, ref) => {
 
   return <chakra.img animation={animation} src={logo} ref={ref} {...props} />
 })
+
+
+
+{/* <VStack spacing={8}>
+          <LogoAnimation h="40vmin" pointerEvents="none" />
+        </VStack> */}
