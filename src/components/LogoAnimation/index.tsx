@@ -8,7 +8,7 @@ import {
   usePrefersReducedMotion,
 } from "@chakra-ui/react"
 
-import logo from "../../assets/logo/emfcars.svg";
+import logo from "../../assets/logo/emfcars1.svg";
 
 const spin = keyframes`
   from { transform: rotate(0deg); }
