@@ -9,7 +9,7 @@ import { TiSocialLastFmCircular } from "react-icons/ti";
 import { useSidebarDrawer } from '../../contexts/SideBarDrawerContext';
 
 export function SideBarNav() {
-    const { SideOnClose } = useSidebarDrawer();
+    const { isOpen, SideOnClose } = useSidebarDrawer();
 
     return (
         <Stack spacing="12" align="flex-start">

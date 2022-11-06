@@ -1,5 +1,4 @@
-import { createContext, ReactNode, useContext, useState } from "react";
-
+import { createContext, ReactNode, useContext, useEffect, useState } from "react";
 interface SideBarDrawerProviderData {
     children: ReactNode;
 }
@@ -14,7 +13,6 @@ const SideBarDrawerContext = createContext({} as SideBarDrawerContextData);
 
 export function SideBarDrawerProvider({ children }: SideBarDrawerProviderData) {
     const [isOpen, setIsOpen] = useState(false);
-
 
     function SideOnOpen() {
         setIsOpen(true);

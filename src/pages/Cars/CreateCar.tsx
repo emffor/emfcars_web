@@ -1,4 +1,5 @@
 import { Box, Button, Divider, Flex, FormControl, FormLabel, Heading, HStack, Select, SimpleGrid, VStack } from "@chakra-ui/react";
+import { useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Input } from "../../components/Form/Input";
 import { Header } from "../../components/Header";
@@ -6,6 +7,9 @@ import { Sidebar } from "../../components/Sidebar";
 
 export function CreateCar() {
     const navigate = useNavigate();
+    const searchInputRef = useRef<HTMLInputElement>(null);
+
+
 
     function handleBack() {
         navigate('/carros');
@@ -30,13 +34,25 @@ export function CreateCar() {
 
                     <VStack>
                         <SimpleGrid minChildWidth="240px" spacing={["6", "8"]} w="100%">
-                            <Input name="Modelo do veículo" label="Modelo do veículo" />
-                            <Input name="Cor do veículo" label="Cor do veículo" />
+                            <Input
+                                name="Modelo do veículo"
+                                label="Modelo do veículo"
+                            />
+                            <Input
+                                name="Cor do veículo"
+                                label="Cor do veículo"
+                            />
                         </SimpleGrid>
 
                         <SimpleGrid minChildWidth="240px" spacing={["6", "8"]} w="100%">
-                            <Input name="Ano de fabricação" label="Ano de fabricação" />
-                            <Input name="Ano do Modelo" label="Ano do Modelo" />
+                            <Input
+                                name="Ano de fabricação"
+                                label="Ano de fabricação"
+                            />
+                            <Input
+                                name="Ano do Modelo"
+                                label="Ano do Modelo"
+                            />
                         </SimpleGrid>
 
                         <SimpleGrid minChildWidth="240px" spacing={["6", "8"]} w="100%">
