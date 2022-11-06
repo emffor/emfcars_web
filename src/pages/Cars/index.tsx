@@ -17,6 +17,7 @@ import {
     useBreakpointValue
 } from "@chakra-ui/react";
 
+import { BsFillTrashFill } from "react-icons/bs";
 import { RiAddLine, RiPencilLine } from "react-icons/ri";
 import { useNavigate } from "react-router-dom";
 import { Header } from "../../components/Header";
@@ -153,31 +154,61 @@ export function ListCars() {
                                     <ButtonGroup>
                                         {
                                             isWideVersion ? (
-                                                <Button
-                                                    size="sm"
-                                                    fontSize="sm"
-                                                    bg={"yellow.600"}
-                                                    color={"white"}
-                                                    leftIcon={<Icon as={RiPencilLine} fontSize="17" />}
-                                                    _hover={{
-                                                        bg: "yellow.500",
-                                                    }}
-                                                >
-                                                    Editar
-                                                </Button>
+                                                <>
+                                                    <Button
+                                                        size="sm"
+                                                        fontSize="sm"
+                                                        bg={"yellow.600"}
+                                                        color={"white"}
+                                                        leftIcon={<Icon as={RiPencilLine} fontSize="17" />}
+                                                        _hover={{
+                                                            bg: "yellow.500",
+                                                        }}
+                                                    >
+                                                        Editar
+                                                    </Button>
+
+                                                    <Button
+                                                        size="sm"
+                                                        fontSize="sm"
+                                                        bg={"red.500"}
+                                                        color={"white"}
+                                                        leftIcon={<Icon as={BsFillTrashFill} fontSize="17" />}
+                                                        _hover={{
+                                                            bg: "red.600",
+                                                        }}
+                                                    >
+                                                        Apagar
+                                                    </Button>
+                                                </>
                                             ) : (
-                                                <Button
-                                                    size="sm"
-                                                    fontSize="sm"
-                                                    p="0"
-                                                    bg={"yellow.600"}
-                                                    color={"white"}
-                                                    _hover={{
-                                                        bg: "yellow.500",
-                                                    }}
-                                                >
-                                                    <Icon as={RiPencilLine} fontSize="17" />
-                                                </Button>
+                                                <>
+                                                    <Button
+                                                        size="sm"
+                                                        fontSize="sm"
+                                                        p="0"
+                                                        bg={"yellow.600"}
+                                                        color={"white"}
+                                                        _hover={{
+                                                            bg: "yellow.500",
+                                                        }}
+                                                    >
+                                                        <Icon as={RiPencilLine} fontSize="17" />
+                                                    </Button>
+
+                                                    <Button
+                                                        size="sm"
+                                                        fontSize="sm"
+                                                        p="0"
+                                                        bg={"red.500"}
+                                                        color={"white"}
+                                                        _hover={{
+                                                            bg: "red.600",
+                                                        }}
+                                                    >
+                                                        <Icon as={BsFillTrashFill} fontSize="17" />
+                                                    </Button>
+                                                </>
                                             )
                                         }
                                     </ButtonGroup>
