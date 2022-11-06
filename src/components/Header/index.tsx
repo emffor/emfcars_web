@@ -6,7 +6,7 @@ import { Logo } from "./Logo";
 import { SearchBox } from "./SearchBox";
 
 export function Header() {
-    const { onOpen } = useSidebarDrawer();
+    const { SideOnOpen } = useSidebarDrawer();
 
     const isWideVersion = useBreakpointValue({
         base: false,
@@ -32,7 +32,7 @@ export function Header() {
                         icon={<Icon as={RiMenuLine} />}
                         fontSize="24"
                         variant="unstyled"
-                        onClick={onOpen}
+                        onClick={SideOnOpen}
                         marginRight="2"
                     >
 

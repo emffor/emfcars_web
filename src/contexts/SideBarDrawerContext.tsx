@@ -1,23 +1,31 @@
-import { useDisclosure, UseDisclosureReturn } from "@chakra-ui/react";
-import { createContext, ReactNode, useContext, useEffect } from "react";
+import { createContext, ReactNode, useContext, useState } from "react";
 
 interface SideBarDrawerProviderData {
     children: ReactNode;
 }
 
-type SideBarDrawerContextData = UseDisclosureReturn;
+type SideBarDrawerContextData = {
+    isOpen: boolean;
+    SideOnOpen(): void;
+    SideOnClose(): void;
+};
 
 const SideBarDrawerContext = createContext({} as SideBarDrawerContextData);
 
 export function SideBarDrawerProvider({ children }: SideBarDrawerProviderData) {
-    const disclosure = useDisclosure();
+    const [isOpen, setIsOpen] = useState(false);
 
-    useEffect(() => {
-        disclosure.onClose();
-    }, []);
+
+    function SideOnOpen() {
+        setIsOpen(true);
+    }
+
+    function SideOnClose() {
+        setIsOpen(false);
+    }
 
     return (
-        <SideBarDrawerContext.Provider value={disclosure}>
+        <SideBarDrawerContext.Provider value={{ isOpen, SideOnOpen, SideOnClose }}>
             {children}
         </SideBarDrawerContext.Provider>
     );

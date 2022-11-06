@@ -12,11 +12,11 @@ export function PaginationItem({ isCurrent, number }: PaginationItemProps) {
                 size="sm"
                 fontSize="xs"
                 width="4"
-                colorScheme="yellow"
+                colorScheme="green"
                 disabled
                 color={"white"}
                 _disabled={{
-                    bg: 'red.500',
+                    bg: 'green.500',
                     cursor: 'default'
                 }}
             >

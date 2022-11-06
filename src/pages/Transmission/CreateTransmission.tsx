@@ -1,11 +1,16 @@
 
 import { Box, Button, Divider, Flex, FormControl, FormLabel, Heading, HStack, Select, SimpleGrid, VStack } from "@chakra-ui/react";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { Input } from "../../components/Form/Input";
 import { Header } from "../../components/Header";
 import { Sidebar } from "../../components/Sidebar";
 
 export function CreateTransmission() {
+    const navigate = useNavigate();
+
+    function handleBack() {
+        navigate('/cambios');
+    }
     return (
         <Box>
             <Header />
@@ -30,11 +35,19 @@ export function CreateTransmission() {
 
                     <Flex mt="8" justify="flex-end">
                         <HStack spacing="4">
-                            <Button as="a" colorScheme="red" color={"white"}>
+                            <Button
+                                as="a"
+                                colorScheme="red"
+                                color={"white"}
+                                onClick={handleBack}
+                            >
                                 Cancelar
                             </Button>
 
-                            <Button as="a" color={"white"} bg={"yellow.600"} >
+                            <Button
+                                as="a"
+                                colorScheme="green"
+                            >
                                 Salvar
                             </Button>
                         </HStack>

@@ -49,7 +49,9 @@ export function Dashboard() {
 
 
     return (
-        <Flex direction="column" h="100vh" >
+        //colocar um scroll horizontal
+
+        <Flex direction="column" h="100vh">
             <Header />
             <Flex
                 w="100%"

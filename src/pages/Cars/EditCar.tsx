@@ -4,7 +4,7 @@ import { Input } from "../../components/Form/Input";
 import { Header } from "../../components/Header";
 import { Sidebar } from "../../components/Sidebar";
 
-export function CreateCar() {
+export function EditCar() {
     const navigate = useNavigate();
 
     function handleBack() {

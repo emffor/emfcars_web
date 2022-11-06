@@ -18,15 +18,22 @@ import {
 } from "@chakra-ui/react";
 
 import { RiAddLine, RiPencilLine } from "react-icons/ri";
+import { useNavigate } from "react-router-dom";
 import { Header } from "../../components/Header";
 import { Pagination } from "../../components/Pagination";
 import { Sidebar } from "../../components/Sidebar";
 
 export function ListBrands() {
+    const navigate = useNavigate();
+
     const isWideVersion = useBreakpointValue({
         base: false,
         lg: true,
     });
+
+    function handleCreateBrands() {
+        navigate('/marcas/cadastrar-marca');
+    }
 
     return (
         <Box>
@@ -37,22 +44,40 @@ export function ListBrands() {
 
                 <Box flex="1" borderRadius={8} bg="gray.50" p="8">
                     <Flex mb="8" justify="space-between" align="center">
-                        <Heading size="lg" fontWeight="normal">
-                            Marcas cadastradas
+                        <Heading size={'md'} fontWeight="500">
+                            Lista de Marcas
                         </Heading>
 
                         <ButtonGroup>
-                            <Button
-                                size="sm"
-                                fontSize="sm"
-                                colorScheme="red"
-                                leftIcon={<Icon as={RiAddLine} fontSize="20" />}
-                                _hover={{
-                                    bg: "red.600",
-                                }}
-                            >
-                                Cadastrar Novo
-                            </Button>
+                            {
+                                isWideVersion ? (
+                                    <Button
+                                        size="sm"
+                                        fontSize={"sm"}
+                                        colorScheme="green"
+                                        leftIcon={<Icon as={RiAddLine} fontSize="20" />}
+                                        _hover={{
+                                            bg: "green.600",
+                                        }}
+                                        onClick={handleCreateBrands}
+                                    >
+                                        Cadastrar Novo
+                                    </Button>
+                                ) : (
+                                    <Button
+                                        size="sm"
+                                        fontSize={"sm"}
+                                        colorScheme="green"
+                                        _hover={{
+                                            bg: "green.600",
+                                        }}
+                                        onClick={handleCreateBrands}
+                                    >
+                                        <Icon as={RiAddLine} fontSize="22" />
+                                        Novo
+                                    </Button>
+                                )
+                            }
                         </ButtonGroup>
                     </Flex>
 
@@ -90,18 +115,35 @@ export function ListBrands() {
                                 </Td>
                                 <Td>
                                     <ButtonGroup>
-                                        <Button
-                                            size="sm"
-                                            fontSize="sm"
-                                            bg={"yellow.600"}
-                                            color={"white"}
-                                            leftIcon={<Icon as={RiPencilLine} fontSize="17" />}
-                                            _hover={{
-                                                bg: "yellow.500",
-                                            }}
-                                        >
-                                            Editar
-                                        </Button>
+                                        {
+                                            isWideVersion ? (
+                                                <Button
+                                                    size="sm"
+                                                    fontSize="sm"
+                                                    bg={"yellow.600"}
+                                                    color={"white"}
+                                                    leftIcon={<Icon as={RiPencilLine} fontSize="17" />}
+                                                    _hover={{
+                                                        bg: "yellow.500",
+                                                    }}
+                                                >
+                                                    Editar
+                                                </Button>
+                                            ) : (
+                                                <Button
+                                                    size="sm"
+                                                    fontSize="sm"
+                                                    p="0"
+                                                    bg={"yellow.600"}
+                                                    color={"white"}
+                                                    _hover={{
+                                                        bg: "yellow.500",
+                                                    }}
+                                                >
+                                                    <Icon as={RiPencilLine} fontSize="17" />
+                                                </Button>
+                                            )
+                                        }
                                     </ButtonGroup>
                                 </Td>
                             </Tr>

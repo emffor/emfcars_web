@@ -14,7 +14,7 @@ import { useSidebarDrawer } from "../../contexts/SideBarDrawerContext";
 import { SideBarNav } from "./SideBarNav";
 
 export function Sidebar() {
-    const { onOpen, onClose } = useSidebarDrawer();
+    const { isOpen, SideOnClose } = useSidebarDrawer();
 
     const isDrawerSidebar = useBreakpointValue({
         base: true,
@@ -23,7 +23,7 @@ export function Sidebar() {
 
     if (isDrawerSidebar) {
         return (
-            <Drawer isOpen={onOpen} placement="left" onClose={onClose}>
+            <Drawer isOpen={isOpen} placement="left" onClose={SideOnClose}>
                 <DrawerOverlay>
                     <DrawerContent bg="gray.100" p="4">
                         <DrawerCloseButton mt="6" />
