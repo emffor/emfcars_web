@@ -1,21 +1,63 @@
-
-import { Box, Button, Divider, Flex, FormControl, FormLabel, Heading, HStack, Select, SimpleGrid, VStack } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
+import * as yup from "yup";
+import { yupResolver } from '@hookform/resolvers/yup';
+import { useForm, SubmitHandler } from "react-hook-form";
+
+import {
+    Box,
+    Button,
+    Divider,
+    Flex,
+    Heading,
+    HStack,
+    VStack
+} from "@chakra-ui/react";
+
 import { Input } from "../../components/Form/Input";
 import { Header } from "../../components/Header";
 import { Sidebar } from "../../components/Sidebar";
 
+interface ICreateTransmissionSchema {
+    name: string;
+    description: string;
+}
+
+const CreateTransmissionFormSchema = yup.object().shape({
+    name: yup.string().required('Nome é obrigatório'),
+    description: yup.string().required('Descrição é obrigatório'),
+})
+
 export function CreateTransmission() {
     const navigate = useNavigate();
+
+    const { register, handleSubmit, formState } = useForm<ICreateTransmissionSchema>({
+        resolver: yupResolver(CreateTransmissionFormSchema)
+    });
+
+    const { errors } = formState;
+
+    const handleCreateTransmission: SubmitHandler<ICreateTransmissionSchema> = async (values) => {
+        await new Promise(resolve => setTimeout(resolve, 2000));
+        console.log(values);
+    }
 
     function handleBack() {
         navigate('/cambios');
     }
+
     return (
         <Box>
             <Header />
 
-            <Flex w="100%" my="6" maxWidth={1480} mx="auto" px="6">
+            <Flex
+                w="100%"
+                my="6"
+                maxWidth={1480}
+                mx="auto"
+                px="6"
+                as='form'
+                onSubmit={handleSubmit(handleCreateTransmission)}
+            >
                 <Sidebar />
 
                 <Box flex="1" borderRadius={8} bg="gray.50" p={["6", "8"]}>
@@ -29,8 +71,18 @@ export function CreateTransmission() {
                     <Divider my="6" borderColor="gray.700" />
 
                     <VStack>
-                        <Input name="Nome do Câmbio" label="Nome do Câmbio" />
-                        <Input name="Descrição do Câmbio" label="Descrição do Câmbio" />
+                        <Input
+                            label="Nome do Câmbio"
+                            type="text"
+                            error={errors.name}
+                            {...register('name')}
+                        />
+                        <Input
+                            label="Descrição do Câmbio"
+                            type="text"
+                            error={errors.description}
+                            {...register('description')}
+                        />
                     </VStack>
 
                     <Flex mt="8" justify="flex-end">
@@ -45,7 +97,7 @@ export function CreateTransmission() {
                             </Button>
 
                             <Button
-                                as="a"
+                                type="submit"
                                 colorScheme="green"
                             >
                                 Salvar

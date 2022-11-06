@@ -1,15 +1,52 @@
-import { Box, Button, Divider, Flex, FormControl, FormLabel, Heading, HStack, Select, SimpleGrid, VStack } from "@chakra-ui/react";
-import { useRef } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import {
+    Box,
+    Button,
+    Divider,
+    Flex,
+    FormControl,
+    FormLabel,
+    Heading,
+    HStack,
+    Select,
+    SimpleGrid,
+    VStack
+} from "@chakra-ui/react";
+
+import { useNavigate } from "react-router-dom";
+import { useForm, SubmitHandler } from "react-hook-form";
+import * as yup from "yup";
+import { yupResolver } from '@hookform/resolvers/yup';
+
 import { Input } from "../../components/Form/Input";
 import { Header } from "../../components/Header";
 import { Sidebar } from "../../components/Sidebar";
 
+interface ICreateCarSchema {
+    modelo: string;
+    cor: string;
+    ano_modelo: number;
+    ano_fabricacao: number;
+}
+
+const CreateCarFormSchema = yup.object().shape({
+    modelo: yup.string().required('Modelo é obrigatório'),
+    cor: yup.string().required('Cor é obrigatório'),
+    ano_modelo: yup.string().required('Ano do Modelo é obrigatório'),
+    ano_fabricacao: yup.string().required('Ano de Fabricação é obrigatório'),
+})
+
 export function CreateCar() {
     const navigate = useNavigate();
-    const searchInputRef = useRef<HTMLInputElement>(null);
+    const { register, handleSubmit, formState } = useForm<ICreateCarSchema>({
+        resolver: yupResolver(CreateCarFormSchema)
+    });
 
+    const { errors } = formState;
 
+    const handleCreateCar: SubmitHandler<ICreateCarSchema> = async (values) => {
+        await new Promise(resolve => setTimeout(resolve, 2000));
+        console.log(values);
+    }
 
     function handleBack() {
         navigate('/carros');
@@ -19,10 +56,23 @@ export function CreateCar() {
         <Box>
             <Header />
 
-            <Flex w="100%" my="6" maxWidth={1480} mx="auto" px="6">
+            <Flex
+                w="100%"
+                my="6"
+                maxWidth={1480}
+                mx="auto"
+                px="6"
+                as='form'
+                onSubmit={handleSubmit(handleCreateCar)}
+            >
                 <Sidebar />
 
-                <Box flex="1" borderRadius={8} bg="gray.50" p={["6", "8"]}>
+                <Box
+                    flex="1"
+                    borderRadius={8}
+                    bg="gray.50"
+                    p={["6", "8"]}
+                >
                     <Heading
                         size="lg"
                         fontWeight="normal"
@@ -35,24 +85,38 @@ export function CreateCar() {
                     <VStack>
                         <SimpleGrid minChildWidth="240px" spacing={["6", "8"]} w="100%">
                             <Input
-                                name="Modelo do veículo"
                                 label="Modelo do veículo"
+                                type="text"
+                                {...register('modelo')}
+                                error={errors.modelo}
                             />
+
                             <Input
-                                name="Cor do veículo"
                                 label="Cor do veículo"
+                                type={'text'}
+                                {...register('cor')}
+                                error={errors.cor}
                             />
+
+
+
                         </SimpleGrid>
 
                         <SimpleGrid minChildWidth="240px" spacing={["6", "8"]} w="100%">
                             <Input
-                                name="Ano de fabricação"
                                 label="Ano de fabricação"
+                                type={'number'}
+                                {...register('ano_fabricacao')}
+                                error={errors.ano_fabricacao}
                             />
+
                             <Input
-                                name="Ano do Modelo"
                                 label="Ano do Modelo"
+                                type={'number'}
+                                {...register('ano_modelo')}
+                                error={errors.ano_modelo}
                             />
+
                         </SimpleGrid>
 
                         <SimpleGrid minChildWidth="240px" spacing={["6", "8"]} w="100%">
@@ -88,8 +152,8 @@ export function CreateCar() {
                             </Button>
 
                             <Button
-                                as="a"
                                 colorScheme="green"
+                                type="submit"
                             >
                                 Salvar
                             </Button>
