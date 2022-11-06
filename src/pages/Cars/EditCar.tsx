@@ -21,7 +21,7 @@ import { Input } from "../../components/Form/Input";
 import { Header } from "../../components/Header";
 import { Sidebar } from "../../components/Sidebar";
 
-interface IEditCarFormData {
+interface IEditCarSchema {
     modelo: string;
     cor: string;
     ano_modelo: number;
@@ -31,19 +31,22 @@ interface IEditCarFormData {
 const EditCarFormSchema = yup.object().shape({
     modelo: yup.string().required('Modelo é obrigatório'),
     cor: yup.string().required('Cor é obrigatório'),
-    ano_modelo: yup.string().required('Ano do Modelo é obrigatório'),
+    ano_modelo: yup.string().required('Ano modelo é obrigatório'),
     ano_fabricacao: yup.string().required('Ano de Fabricação é obrigatório'),
 })
 
 export function EditCar() {
     const navigate = useNavigate();
-    const { register, handleSubmit, formState } = useForm<IEditCarFormData>({
+    const { register, handleSubmit, formState } = useForm<IEditCarSchema>({
         resolver: yupResolver(EditCarFormSchema)
     });
 
+
+    const year = new Date().getFullYear() + 1;
+
     const { errors } = formState;
 
-    const handleEditCar: SubmitHandler<IEditCarFormData> = async (values) => {
+    const handleEditCar: SubmitHandler<IEditCarSchema> = async (values) => {
         await new Promise(resolve => setTimeout(resolve, 2000));
         console.log(values);
     }
@@ -97,22 +100,25 @@ export function EditCar() {
                                 {...register('cor')}
                                 error={errors.cor}
                             />
-
-
-
                         </SimpleGrid>
 
                         <SimpleGrid minChildWidth="240px" spacing={["6", "8"]} w="100%">
                             <Input
                                 label="Ano de fabricação"
+                                placeholder={`de 1920 até o ano ${year - 1}`}
                                 type={'number'}
+                                min={1920}
+                                max={year - 1}
                                 {...register('ano_fabricacao')}
                                 error={errors.ano_fabricacao}
                             />
 
                             <Input
                                 label="Ano do Modelo"
+                                placeholder={`de 1920 até o ano ${year}`}
                                 type={'number'}
+                                min={1920}
+                                max={year}
                                 {...register('ano_modelo')}
                                 error={errors.ano_modelo}
                             />

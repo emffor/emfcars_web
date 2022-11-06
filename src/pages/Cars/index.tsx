@@ -6,7 +6,6 @@ import {
     Flex,
     Heading,
     Icon,
-    Link,
     Table,
     Tbody,
     Td,

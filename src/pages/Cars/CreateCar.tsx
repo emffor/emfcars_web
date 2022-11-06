@@ -31,7 +31,7 @@ interface ICreateCarSchema {
 const CreateCarFormSchema = yup.object().shape({
     modelo: yup.string().required('Modelo é obrigatório'),
     cor: yup.string().required('Cor é obrigatório'),
-    ano_modelo: yup.string().required('Ano do Modelo é obrigatório'),
+    ano_modelo: yup.string().required('Ano modelo é obrigatório'),
     ano_fabricacao: yup.string().required('Ano de Fabricação é obrigatório'),
 })
 
@@ -40,6 +40,9 @@ export function CreateCar() {
     const { register, handleSubmit, formState } = useForm<ICreateCarSchema>({
         resolver: yupResolver(CreateCarFormSchema)
     });
+
+
+    const year = new Date().getFullYear() + 1;
 
     const { errors } = formState;
 
@@ -97,22 +100,25 @@ export function CreateCar() {
                                 {...register('cor')}
                                 error={errors.cor}
                             />
-
-
-
                         </SimpleGrid>
 
                         <SimpleGrid minChildWidth="240px" spacing={["6", "8"]} w="100%">
                             <Input
                                 label="Ano de fabricação"
+                                placeholder={`de 1920 até o ano ${year - 1}`}
                                 type={'number'}
+                                min={1920}
+                                max={year - 1}
                                 {...register('ano_fabricacao')}
                                 error={errors.ano_fabricacao}
                             />
 
                             <Input
                                 label="Ano do Modelo"
+                                placeholder={`de 1920 até o ano ${year}`}
                                 type={'number'}
+                                min={1920}
+                                max={year}
                                 {...register('ano_modelo')}
                                 error={errors.ano_modelo}
                             />
