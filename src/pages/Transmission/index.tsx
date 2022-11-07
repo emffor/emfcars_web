@@ -27,13 +27,15 @@ import { Sidebar } from "../../components/Sidebar";
 
 import { ITransmissionDTO } from "../../dtos/ITransmissionDTO";
 import api from "../../services/api";
-import { log } from "console";
 import { TableTransmission } from "./TableTransmission";
 import { Loading } from "../../components/Form/Loading";
+import { Environment } from "../../environment";
 
 export function ListTransmissions() {
     const navigate = useNavigate();
     const [isLoading, setIsLoading] = useState(true);
+
+    const [page, setPage] = useState(1);
 
     const [transmissions, setTransmissions] = useState<ITransmissionDTO[]>([]);
 
@@ -51,7 +53,6 @@ export function ListTransmissions() {
             await api.get('/transmissions')
                 .then(response => {
                     setTransmissions(response.data);
-                    console.log(response.data);
                 }).catch(error => {
                     console.log(error);
                 }).finally(() => {
@@ -60,7 +61,6 @@ export function ListTransmissions() {
         }
         handleFetchTransmissions();
     }, [])
-
 
     return (
         <Box>
@@ -124,9 +124,7 @@ export function ListTransmissions() {
                                 >
                                     <Thead>
                                         <Tr>
-                                            <Th px={["4", "4", "6"]} color="gray.900" width="8">
-                                                <Checkbox colorScheme="red" borderColor='gray' />
-                                            </Th>
+                                            <Th px={["4", "4", "6"]} color="gray.900" width="8"></Th>
                                             <Th>Nome do Câmbio</Th>
                                             <Th>Descrição</Th>
                                             <Th w={"8"}></Th>
@@ -135,7 +133,7 @@ export function ListTransmissions() {
 
                                     <Tbody>
                                         {
-                                            transmissions.map(transmission => {
+                                            transmissions.slice((page - 1) * Environment.LINHA_DE_LINHAS, page * Environment.LINHA_DE_LINHAS).map((transmission) => {
                                                 return (
                                                     <TableTransmission
                                                         key={transmission.id}
@@ -147,10 +145,13 @@ export function ListTransmissions() {
                                             })
                                         }
                                     </Tbody>
-
                                 </Table>
 
-                                <Pagination />
+                                <Pagination
+                                    totalCountOfRegisters={transmissions.length}
+                                    currentPage={page}
+                                    onPageChange={setPage}
+                                />
                             </Box>
                         )
                 }

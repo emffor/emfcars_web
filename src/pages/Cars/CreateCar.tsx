@@ -1,3 +1,9 @@
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { useForm, SubmitHandler } from "react-hook-form";
+import * as yup from "yup";
+import { yupResolver } from '@hookform/resolvers/yup';
+
 import {
     Box,
     Button,
@@ -12,14 +18,12 @@ import {
     VStack
 } from "@chakra-ui/react";
 
-import { useNavigate } from "react-router-dom";
-import { useForm, SubmitHandler } from "react-hook-form";
-import * as yup from "yup";
-import { yupResolver } from '@hookform/resolvers/yup';
-
 import { Input } from "../../components/Form/Input";
 import { Header } from "../../components/Header";
 import { Sidebar } from "../../components/Sidebar";
+import api from "../../services/api";
+import { ITransmissionDTO } from "../../dtos/ITransmissionDTO";
+import { IBrandDTO } from "../../dtos/IBrandDTO";
 
 interface ICreateCarSchema {
     modelo: string;
@@ -37,23 +41,98 @@ const CreateCarFormSchema = yup.object().shape({
 
 export function CreateCar() {
     const navigate = useNavigate();
+    const [isLoading, setIsLoading] = useState(false);
+
+    const [transmissions, setTransmissions] = useState<ITransmissionDTO[]>([]);
+    const [brands, setBrands] = useState<IBrandDTO[]>([]);
+
+    const [selectedTransmission, setSelectedTransmission] = useState('');
+    const [selectedBrand, setSelectedBrand] = useState('');
+
     const { register, handleSubmit, formState } = useForm<ICreateCarSchema>({
         resolver: yupResolver(CreateCarFormSchema)
     });
-
 
     const year = new Date().getFullYear() + 1;
 
     const { errors } = formState;
 
     const handleCreateCar: SubmitHandler<ICreateCarSchema> = async (values) => {
-        await new Promise(resolve => setTimeout(resolve, 2000));
         console.log(values);
+
+        if (selectedTransmission === '' || selectedBrand === '') {
+            alert('Selecione uma marca e uma transmissão!');
+            return;
+        }
+
+        setIsLoading(true);
+        await api.post('/cars', {
+            model: values.modelo,
+            color: values.cor,
+            creation_year: Number(values.ano_fabricacao),
+            model_year: Number(values.ano_modelo),
+            brandId: selectedBrand,
+            transmissionId: selectedTransmission,
+        })
+            .then(() => {
+                alert('Carro cadastrado com sucesso!');
+                navigate('/carros');
+            })
+            .catch(error => {
+                console.log(error);
+                /* console.log(error.response.data.message); */
+                if (error.response.data.message === 'Car already exists!') {
+                    alert('Carro já cadastrado!');
+                }
+
+                if (error.response.data.message === 'Model year cannot be greater than 1 year from creation year!') {
+                    alert('Ano de fabricação ou modelo não pode ter mais de 1 ano de diferença!');
+                }
+            })
+            .finally(() => {
+                setIsLoading(false);
+            })
     }
 
     function handleBack() {
         navigate('/carros');
     }
+
+    useEffect(() => {
+        async function loadTransmission() {
+            await api.get('/transmissions')
+                .then(response => {
+                    setTransmissions(response.data);
+                })
+                .catch(err => {
+                    console.log(err);
+                }).
+                finally(() => {
+                    setIsLoading(false);
+                })
+        }
+
+        async function loadBrands() {
+            await api.get('/brands')
+                .then(response => {
+                    setBrands(response.data);
+                })
+                .catch(err => {
+                    console.log(err);
+                }).
+                finally(() => {
+                    setIsLoading(false);
+                })
+        }
+
+        loadBrands();
+        loadTransmission();
+    }, [])
+
+    useEffect(() => {
+        console.log(selectedBrand)
+        console.log(selectedTransmission)
+    }, [selectedBrand, selectedTransmission])
 
     return (
         <Box>
@@ -128,19 +207,40 @@ export function CreateCar() {
                         <SimpleGrid minChildWidth="240px" spacing={["6", "8"]} w="100%">
                             <FormControl>
                                 <FormLabel htmlFor="email">Marca do veículo</FormLabel>
-                                <Select placeholder='Marca do veículo' size='lg'>
-                                    <option value='option1'>Option 1</option>
-                                    <option value='option2'>Option 2</option>
-                                    <option value='option3'>Option 3</option>
+                                <Select
+                                    placeholder='Marca do veículo'
+                                    size='lg'
+                                    onChange={event => setSelectedBrand(event.target.value)}
+                                >
+                                    {
+                                        brands.map(brand => (
+                                            <option
+                                                key={brand.id} value={brand.id}
+                                            >
+                                                {brand.name}
+                                            </option>
+                                        ))
+                                    }
+
                                 </Select>
                             </FormControl>
 
                             <FormControl>
                                 <FormLabel htmlFor="email">Tipo de Câmbio</FormLabel>
-                                <Select placeholder='Tipo de Câmbio' size='lg'>
-                                    <option value='option1'>Option 1</option>
-                                    <option value='option2'>Option 2</option>
-                                    <option value='option3'>Option 3</option>
+                                <Select
+                                    placeholder='Tipo de Câmbio'
+                                    size='lg'
+                                    onChange={(e) => setSelectedTransmission((e.target.value))}
+                                >
+                                    {
+                                        transmissions.map(transmission => (
+                                            <option
+                                                key={transmission.id} value={transmission.id}
+                                            >
+                                                {transmission.name}
+                                            </option>
+                                        ))
+                                    }
                                 </Select>
                             </FormControl>
                         </SimpleGrid>
