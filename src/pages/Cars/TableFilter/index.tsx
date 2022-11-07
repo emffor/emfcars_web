@@ -1,26 +1,16 @@
 import {
     Box,
-    Button,
-    ButtonGroup,
-    Checkbox,
-    Icon,
     Td,
     Text,
     Tr,
     useBreakpointValue,
-    CheckboxProps,
     Table,
     Thead,
     Th,
-    Tbody,
-    Heading
+    Tbody
 } from "@chakra-ui/react";
 
-import { BsFillTrashFill } from "react-icons/bs";
-import { RiPencilLine } from "react-icons/ri";
-import { Empty } from "../../../components/Empty";
 import { IBrandCarDTO } from "../../../dtos/IBrandCarDTO";
-import { ICarDTO } from "../../../dtos/ICarDTO";
 
 interface Props {
     data: IBrandCarDTO;

@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import api from "../../services/api";
 
 import {
     Box,
@@ -18,7 +19,6 @@ import {
 import { Input } from "../../components/Form/Input";
 import { Header } from "../../components/Header";
 import { Sidebar } from "../../components/Sidebar";
-import api from "../../services/api";
 import { ITransmissionDTO } from "../../dtos/ITransmissionDTO";
 import { IBrandDTO } from "../../dtos/IBrandDTO";
 import { Loading } from "../../components/Form/Loading";

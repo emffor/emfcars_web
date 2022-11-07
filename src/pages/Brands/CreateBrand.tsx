@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import * as yup from "yup";
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm, SubmitHandler } from "react-hook-form";
+import api from "../../services/api";
 
 import {
     Box,
@@ -17,9 +18,7 @@ import {
 import { Input } from "../../components/Form/Input";
 import { Header } from "../../components/Header";
 import { Sidebar } from "../../components/Sidebar";
-import api from "../../services/api";
 import { Loading } from "../../components/Form/Loading";
-
 interface ICreateBrandSchema {
     name: string;
     description: string;

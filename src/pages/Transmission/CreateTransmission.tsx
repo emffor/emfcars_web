@@ -1,4 +1,6 @@
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import api from "../../services/api";
 import * as yup from "yup";
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm, SubmitHandler } from "react-hook-form";
@@ -17,8 +19,6 @@ import {
 import { Input } from "../../components/Form/Input";
 import { Header } from "../../components/Header";
 import { Sidebar } from "../../components/Sidebar";
-import api from "../../services/api";
-import { useEffect, useState } from "react";
 import { Loading } from "../../components/Form/Loading";
 
 interface ICreateTransmissionSchema {

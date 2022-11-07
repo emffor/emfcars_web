@@ -1,6 +1,5 @@
-import { Button, Flex } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
-import { Input } from "../components/Form/Input";
+import { Button, Flex } from "@chakra-ui/react";
 import { LogoAnimation } from "../components/LogoAnimation";
 
 export function Home() {

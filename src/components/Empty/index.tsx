@@ -1,4 +1,4 @@
-import { Badge, Flex, Td, Text, Tr, VStack } from "@chakra-ui/react";
+import { Badge, Text, VStack } from "@chakra-ui/react";
 
 interface Props {
     title: string;

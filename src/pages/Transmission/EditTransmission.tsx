@@ -1,5 +1,6 @@
+import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-
+import api from "../../services/api";
 import {
     Box,
     Button,
@@ -13,10 +14,7 @@ import {
 import { Input } from "../../components/Form/Input";
 import { Header } from "../../components/Header";
 import { Sidebar } from "../../components/Sidebar";
-import api from "../../services/api";
-import { useEffect, useState } from "react";
 import { Loading } from "../../components/Form/Loading";
-
 
 export function EditTransmission() {
     const navigate = useNavigate();

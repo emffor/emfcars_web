@@ -1,4 +1,10 @@
-import { Avatar, Box, color, Flex, Icon, Link, Stack, Text } from "@chakra-ui/react";
+import {
+    Box,
+    Flex,
+    Icon,
+    Link
+} from "@chakra-ui/react";
+
 import { ImGithub } from "react-icons/im";
 
 interface ProfileProps {

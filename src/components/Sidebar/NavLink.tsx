@@ -1,6 +1,6 @@
 import { Box, Icon, Text } from "@chakra-ui/react";
 import { ElementType, ReactNode } from "react";
-import { Link, NavLink as NavLik, NavLinkProps } from "react-router-dom";
+import { NavLink as NavLik } from "react-router-dom";
 interface Props {
     icon: ElementType; //quando passa o nome de um componente, ele já sabe que é um elemento
     children: ReactNode;

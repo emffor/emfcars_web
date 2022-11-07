@@ -1,3 +1,7 @@
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import api from "../../services/api";
+
 import {
     Box,
     Button,
@@ -13,18 +17,15 @@ import {
     useBreakpointValue
 } from "@chakra-ui/react";
 
-import { useEffect, useState } from "react";
 import { RiAddLine } from "react-icons/ri";
-import { useNavigate } from "react-router-dom";
 import { Empty } from "../../components/Empty";
 import { Loading } from "../../components/Form/Loading";
 import { Header } from "../../components/Header";
 import { Pagination } from "../../components/Pagination";
 import { Sidebar } from "../../components/Sidebar";
-import { IBrandDTO } from "../../dtos/IBrandDTO";
 import { Environment } from "../../environment";
-import api from "../../services/api";
 import { TableBrand } from "./TableBrand";
+import { IBrandDTO } from "../../dtos/IBrandDTO";
 
 export function ListBrands() {
     const navigate = useNavigate();

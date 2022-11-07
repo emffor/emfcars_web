@@ -1,56 +1,29 @@
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import api from "../../services/api";
+
 import {
     Box,
     Button,
     ButtonGroup,
-    Checkbox,
     Flex,
     Heading,
-    Icon,
-    Table,
-    Tbody,
-    Td,
-    Text,
-    Th,
-    Thead,
-    Tr,
-    useBreakpointValue,
-    VStack
+    Icon
 } from "@chakra-ui/react";
-import { useEffect, useState } from "react";
-import { BsArrowLeft } from "react-icons/bs";
 
-import { RiAddLine, RiArrowLeftUpFill } from "react-icons/ri";
-import { useNavigate } from "react-router-dom";
-import { Empty } from "../../components/Empty";
+import { BsArrowLeft } from "react-icons/bs";
 import { Loading } from "../../components/Form/Loading";
 import { Header } from "../../components/Header";
-import { Pagination } from "../../components/Pagination";
 import { Sidebar } from "../../components/Sidebar";
-import { IBrandCarDTO } from "../../dtos/IBrandCarDTO";
-import { ICarDTO } from "../../dtos/ICarDTO";
 import { ITransmissionCarDTO } from "../../dtos/ITransmissionCarDTO";
-import { Environment } from "../../environment";
-import api from "../../services/api";
-import { TableCar } from "./TableCar";
 import { TableFilter } from "./TableFilter";
 
 export function FilterTransmission() {
     const navigate = useNavigate();
 
     const [isLoading, setIsLoading] = useState(false);
-    const [emptyCars, setEmptyCars] = useState(0);
-
-    const [page, setPage] = useState(1);
 
     const [transmissionsCars, setTransmissionsCars] = useState<ITransmissionCarDTO[]>([]);
-
-    const [checkedCar, setCheckedCar] = useState<boolean>(false);
-    const [selectedCarId, setSelectedCarId] = useState('');
-
-    const isWideVersion = useBreakpointValue({
-        base: false,
-        lg: true,
-    });
 
 
     function handleGoBack() {
@@ -59,12 +32,18 @@ export function FilterTransmission() {
 
     useEffect(() => {
         async function loadBrandsCars() {
+            setIsLoading(true);
             await api.get('/transmissions/cars')
                 .then((response) => {
                     setTransmissionsCars(response.data);
                     console.log(response.data);
                 })
-
+                .catch((error) => {
+                    console.log(error);
+                })
+                .finally(() => {
+                    setIsLoading(false);
+                })
         }
         loadBrandsCars();
     }, [])
@@ -76,8 +55,6 @@ export function FilterTransmission() {
 
             <Flex w="100%" my="6" maxWidth={1480} mx="auto" px="6">
                 <Sidebar />
-
-
                 {
                     isLoading ?
                         (

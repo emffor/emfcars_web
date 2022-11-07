@@ -3,7 +3,6 @@ import { RiMenuLine } from "react-icons/ri";
 import { useSidebarDrawer } from "../../contexts/SideBarDrawerContext";
 import { BannerGitHub } from "./BannerGitHub";
 import { Logo } from "./Logo";
-import { SearchBox } from "./SearchBox";
 
 export function Header() {
     const { SideOnOpen } = useSidebarDrawer();
@@ -41,7 +40,6 @@ export function Header() {
             }
             <Logo />
 
-            {/* {isWideVersion && <SearchBox />} */}
 
             <BannerGitHub showProfileData={isWideVersion} />
         </Flex>

@@ -1,33 +1,31 @@
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import api from "../../services/api";
+
 import {
     Box,
     Button,
     ButtonGroup,
-    Checkbox,
     Flex,
     Heading,
     Icon,
     Table,
     Tbody,
-    Td,
-    Text,
     Th,
     Thead,
     Tr,
     useBreakpointValue
 } from "@chakra-ui/react";
-import { useEffect, useState } from "react";
 
 import { RiAddLine, RiFilter2Fill } from "react-icons/ri";
-import { useNavigate } from "react-router-dom";
 import { Empty } from "../../components/Empty";
 import { Loading } from "../../components/Form/Loading";
 import { Header } from "../../components/Header";
 import { Pagination } from "../../components/Pagination";
 import { Sidebar } from "../../components/Sidebar";
-import { ICarDTO } from "../../dtos/ICarDTO";
 import { Environment } from "../../environment";
-import api from "../../services/api";
 import { TableCar } from "./TableCar";
+import { ICarDTO } from "../../dtos/ICarDTO";
 
 export function ListCars() {
     const navigate = useNavigate();

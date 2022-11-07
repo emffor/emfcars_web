@@ -1,36 +1,31 @@
 import { useEffect, useState } from "react";
+import { RiAddLine } from "react-icons/ri";
+import { useNavigate } from "react-router-dom";
+import api from "../../services/api";
 
 import {
     Box,
     Button,
     ButtonGroup,
-    Checkbox,
     Flex,
     Heading,
     Icon,
-    Link,
     Table,
     Tbody,
-    Td,
-    Text,
     Th,
     Thead,
     Tr,
     useBreakpointValue
 } from "@chakra-ui/react";
 
-import { RiAddLine } from "react-icons/ri";
-import { useNavigate } from "react-router-dom";
 import { Header } from "../../components/Header";
-import { Pagination } from "../../components/Pagination";
 import { Sidebar } from "../../components/Sidebar";
-
-import { ITransmissionDTO } from "../../dtos/ITransmissionDTO";
-import api from "../../services/api";
+import { Pagination } from "../../components/Pagination";
 import { TableTransmission } from "./TableTransmission";
 import { Loading } from "../../components/Form/Loading";
 import { Environment } from "../../environment";
 import { Empty } from "../../components/Empty";
+import { ITransmissionDTO } from "../../dtos/ITransmissionDTO";
 
 export function ListTransmissions() {
     const navigate = useNavigate();
@@ -101,9 +96,6 @@ export function ListTransmissions() {
                 setIsLoading(false);
             })
     }
-
-
-
 
     useEffect(() => {
         async function handleFetchTransmissions() {
