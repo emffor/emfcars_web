@@ -23,6 +23,7 @@ export function AppRoutes() {
             <Route path="/carros" element={<ListCars />} />
             <Route path="/carros/cadastrar-carro" element={<CreateCar />} />
             <Route path="/carros/editar-carro" element={<EditCar />} />
+            <Route path="/carros/editar-carro/:id" element={<EditCar />} />
             <Route path="/marcas" element={<ListBrands />} />
             <Route path="/marcas/cadastrar-marca" element={<CreateBrand />} />
             <Route path="/marcas/editar-marca" element={<EditBrand />} />

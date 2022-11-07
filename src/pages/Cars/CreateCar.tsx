@@ -129,10 +129,6 @@ export function CreateCar() {
         loadTransmission();
     }, [])
 
-    useEffect(() => {
-        console.log(selectedBrand)
-        console.log(selectedTransmission)
-    }, [selectedBrand, selectedTransmission])
 
     return (
         <Box>

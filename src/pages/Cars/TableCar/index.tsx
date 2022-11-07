@@ -7,20 +7,28 @@ import {
     Td,
     Text,
     Tr,
-    useBreakpointValue
+    useBreakpointValue,
+    CheckboxProps
 } from "@chakra-ui/react";
 
 import { BsFillTrashFill } from "react-icons/bs";
 import { RiPencilLine } from "react-icons/ri";
 import { ICarDTO } from "../../../dtos/ICarDTO";
 
-interface Props {
+interface Props extends CheckboxProps {
     data: ICarDTO;
-    onClickEdit: () => void;
-    onClickDelete: () => void;
+    onClickEdit?: () => void;
+    onClickDelete?: () => void;
+    onClickCheck?: () => void;
 }
 
-export function TableCar({ data, onClickEdit, onClickDelete }: Props) {
+export function TableCar({
+    data,
+    onClickEdit,
+    onClickDelete,
+    onClickCheck,
+    ...rest
+}: Props) {
     const isWideVersion = useBreakpointValue({
         base: false,
         lg: true,
@@ -29,7 +37,14 @@ export function TableCar({ data, onClickEdit, onClickDelete }: Props) {
     return (
         <Tr justifyContent="center" alignItems={"center"}>
             <Td px={["4", "4", "6"]} width="8" pt="3" pb="3">
-                <Checkbox colorScheme="red" borderColor='gray' />
+                <Checkbox
+                    id={data.id}
+                    colorScheme="red"
+                    borderColor='gray'
+                    value={data.id}
+                    onChange={onClickCheck}
+                    {...rest}
+                />
             </Td>
             <Td>
                 <Box>
@@ -87,6 +102,7 @@ export function TableCar({ data, onClickEdit, onClickDelete }: Props) {
                                     _hover={{
                                         bg: "yellow.500",
                                     }}
+                                    onClick={onClickEdit}
                                 >
                                     Editar
                                 </Button>
@@ -100,6 +116,7 @@ export function TableCar({ data, onClickEdit, onClickDelete }: Props) {
                                     _hover={{
                                         bg: "red.600",
                                     }}
+                                    onClick={onClickDelete}
                                 >
                                     Apagar
                                 </Button>
@@ -115,6 +132,7 @@ export function TableCar({ data, onClickEdit, onClickDelete }: Props) {
                                     _hover={{
                                         bg: "yellow.500",
                                     }}
+                                    onClick={onClickEdit}
                                 >
                                     <Icon as={RiPencilLine} fontSize="17" />
                                 </Button>
@@ -128,6 +146,7 @@ export function TableCar({ data, onClickEdit, onClickDelete }: Props) {
                                     _hover={{
                                         bg: "red.600",
                                     }}
+                                    onClick={onClickDelete}
                                 >
                                     <Icon as={BsFillTrashFill} fontSize="17" />
                                 </Button>

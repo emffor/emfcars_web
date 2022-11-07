@@ -126,9 +126,7 @@ export function ListBrands() {
                                 >
                                     <Thead>
                                         <Tr>
-                                            <Th px={["4", "4", "6"]} color="gray.900" width="8">
-                                                <Checkbox colorScheme="red" borderColor='gray' />
-                                            </Th>
+                                            <Th px={["4", "4", "6"]} color="gray.900" width="8"></Th>
                                             <Th>Nome da Marca</Th>
                                             <Th>Descrição</Th>
                                             <Th w={"8"}></Th>
