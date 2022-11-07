@@ -30,14 +30,20 @@ import api from "../../services/api";
 import { TableTransmission } from "./TableTransmission";
 import { Loading } from "../../components/Form/Loading";
 import { Environment } from "../../environment";
+import { Empty } from "../../components/Empty";
 
 export function ListTransmissions() {
     const navigate = useNavigate();
+
     const [isLoading, setIsLoading] = useState(true);
+    const [emptyTransmissions, setEmptyTransmissions] = useState(0);
 
     const [page, setPage] = useState(1);
 
     const [transmissions, setTransmissions] = useState<ITransmissionDTO[]>([]);
+
+    const [checkedTransmission, setCheckedTransmission] = useState<boolean>(false);
+    const [selectedTransmissionId, setSelectedTransmissionId] = useState('');
 
     const isWideVersion = useBreakpointValue({
         base: false,
@@ -48,11 +54,63 @@ export function ListTransmissions() {
         navigate('/cambios/cadastrar-cambio');
     }
 
+    function handleEditTransmission() {
+        if (selectedTransmissionId === '') {
+            return alert('Selecione um cambio para editar');
+        }
+
+        navigate(`/cambios/editar-cambio/${selectedTransmissionId}`);
+    }
+
+    function handleChecked(id: string) {
+        if (selectedTransmissionId === id) {
+            setSelectedTransmissionId('');
+            setCheckedTransmission(false);
+        } else if (selectedTransmissionId !== id) {
+            setSelectedTransmissionId(id);
+            setCheckedTransmission(true);
+
+        } else if (selectedTransmissionId === '') {
+            setSelectedTransmissionId(id);
+            setCheckedTransmission(true);
+        }
+    }
+
+
+    async function handleDeleteTransmission(id: string) {
+        if (selectedTransmissionId === '') {
+            return alert('Selecione um cambio para deletar');
+        }
+
+        setIsLoading(true);
+
+        await api.delete(`/transmissions/${id}`)
+            .then(() => {
+                alert('Cambio deletado com sucesso');
+                window.location.reload();
+            })
+            .catch(error => {
+                console.log(error)
+
+                if (error.response.data.message === "Transmission cannot be removed because it has cars associated with it!") {
+
+                    alert('Não é possível deletar um cambio associados carros');
+                }
+            })
+            .finally(() => {
+                setIsLoading(false);
+            })
+    }
+
+
+
+
     useEffect(() => {
         async function handleFetchTransmissions() {
             await api.get('/transmissions')
                 .then(response => {
                     setTransmissions(response.data);
+                    setEmptyTransmissions(response.data.length);
                 }).catch(error => {
                     console.log(error);
                 }).finally(() => {
@@ -122,40 +180,59 @@ export function ListTransmissions() {
                                     variant="simple"
                                     color="gray.500"
                                 >
-                                    <Thead>
-                                        <Tr>
-                                            <Th px={["4", "4", "6"]} color="gray.900" width="8"></Th>
-                                            <Th>Nome do Câmbio</Th>
-                                            <Th>Descrição</Th>
-                                            <Th w={"8"}></Th>
-                                        </Tr>
-                                    </Thead>
+                                    {
+                                        emptyTransmissions === 0
+                                            ?
+                                            (
+                                                <Empty
+                                                    title="Nenhum câmbio cadastrado"
+                                                    subtitle="Cadastrar novo Câmbio"
+                                                />
+                                            )
+                                            :
+                                            (
+                                                <>
+                                                    <Thead>
+                                                        <Tr>
+                                                            <Th px={["4", "4", "6"]} color="gray.900" width="8"></Th>
+                                                            <Th>Nome do Câmbio</Th>
+                                                            <Th>Descrição</Th>
+                                                            <Th w={"8"}></Th>
+                                                        </Tr>
+                                                    </Thead>
 
-                                    <Tbody>
-                                        {
-                                            transmissions.slice((page - 1) * Environment.LINHA_DE_LINHAS, page * Environment.LINHA_DE_LINHAS).map((transmission) => {
-                                                return (
-                                                    <TableTransmission
-                                                        key={transmission.id}
-                                                        data={transmission}
-                                                        onClickDelete={() => console.log('delete')}
-                                                        onClickEdit={() => console.log('edit')}
-                                                    />
-                                                )
-                                            })
-                                        }
-                                    </Tbody>
-                                </Table>
+                                                    <Tbody>
+                                                        {
+                                                            transmissions.slice((page - 1) * Environment.LINHA_DE_LINHAS, page * Environment.LINHA_DE_LINHAS).map((transmission) => {
+                                                                return (
+                                                                    <TableTransmission
+                                                                        key={transmission.id}
+                                                                        data={transmission}
+                                                                        onClickDelete={() => handleDeleteTransmission(transmission.id)}
+                                                                        onClickEdit={() => handleEditTransmission()}
+                                                                        onClickCheck={() => handleChecked(transmission.id)}
+                                                                        defaultChecked={checkedTransmission && selectedTransmissionId === transmission.id ? true : false}
+
+                                                                        isChecked={checkedTransmission && selectedTransmissionId === transmission.id ? true : false}
+                                                                    />
+                                                                )
+                                                            })
+                                                        }
+                                                    </Tbody>
+                                                </>
+                                            )
+                                    }
+                                </Table >
 
                                 <Pagination
                                     totalCountOfRegisters={transmissions.length}
                                     currentPage={page}
                                     onPageChange={setPage}
                                 />
-                            </Box>
+                            </Box >
                         )
                 }
-            </Flex>
-        </Box>
+            </Flex >
+        </Box >
     );
 }

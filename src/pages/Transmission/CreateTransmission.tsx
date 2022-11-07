@@ -86,29 +86,29 @@ export function CreateTransmission() {
                 onSubmit={handleSubmit(handleCreateTransmission)}
             >
                 <Sidebar />
-                {
-                    isLoading ?
-                        (
-                            <Box w={"100%"} h={"30vh"}>
-                                <Loading />
-                            </Box>
-                        )
-                        : (
-                            <Box
-                                flex="1"
-                                borderRadius={8}
-                                bg="gray.50"
-                                p={["6", "8"]}
-                            >
-                                <Heading
-                                    size="lg"
-                                    fontWeight="normal"
-                                >
-                                    Cadastrar Tipo de Câmbio
-                                </Heading>
 
-                                <Divider my="6" borderColor="gray.700" />
+                <Box
+                    flex="1"
+                    borderRadius={8}
+                    bg="gray.50"
+                    p={["6", "8"]}
+                >
+                    <Heading
+                        size="lg"
+                        fontWeight="normal"
+                    >
+                        Cadastrar Tipo de Câmbio
+                    </Heading>
 
+                    <Divider my="6" borderColor="gray.700" />
+                    {
+                        isLoading ?
+                            (
+                                <Box w={"100%"} h={"25vh"}>
+                                    <Loading />
+                                </Box>
+                            )
+                            : (
                                 <VStack>
                                     <Input
                                         label="Nome do Câmbio"
@@ -123,29 +123,29 @@ export function CreateTransmission() {
                                         {...register('description')}
                                     />
                                 </VStack>
+                            )
+                    }
 
-                                <Flex mt="8" justify="flex-end">
-                                    <HStack spacing="4">
-                                        <Button
-                                            as="a"
-                                            colorScheme="red"
-                                            color={"white"}
-                                            onClick={handleBack}
-                                        >
-                                            Cancelar
-                                        </Button>
+                    <Flex mt="8" justify="flex-end">
+                        <HStack spacing="4">
+                            <Button
+                                as="a"
+                                colorScheme="red"
+                                color={"white"}
+                                onClick={handleBack}
+                            >
+                                Cancelar
+                            </Button>
 
-                                        <Button
-                                            type="submit"
-                                            colorScheme="green"
-                                        >
-                                            Salvar
-                                        </Button>
-                                    </HStack>
-                                </Flex>
-                            </Box>
-                        )
-                }
+                            <Button
+                                type="submit"
+                                colorScheme="green"
+                            >
+                                Salvar
+                            </Button>
+                        </HStack>
+                    </Flex>
+                </Box>
 
 
             </Flex>

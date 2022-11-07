@@ -41,7 +41,7 @@ export function Header() {
             }
             <Logo />
 
-            {isWideVersion && <SearchBox />}
+            {/* {isWideVersion && <SearchBox />} */}
 
             <BannerGitHub showProfileData={isWideVersion} />
         </Flex>

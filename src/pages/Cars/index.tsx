@@ -17,9 +17,9 @@ import {
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 
-import { RiAddLine } from "react-icons/ri";
+import { RiAddLine, RiFilter2Fill } from "react-icons/ri";
 import { useNavigate } from "react-router-dom";
-import { EmptyCar } from "../../components/EmptyCar";
+import { Empty } from "../../components/Empty";
 import { Loading } from "../../components/Form/Loading";
 import { Header } from "../../components/Header";
 import { Pagination } from "../../components/Pagination";
@@ -58,6 +58,14 @@ export function ListCars() {
         }
 
         navigate(`/carros/editar-carro/${selectedCarId}`);
+    }
+
+    function handleFilterBrands() {
+        navigate('/carros/filtrar-marcas-carros');
+    }
+
+    function handleFilterTransmission() {
+        navigate('/carros/filtrar-cambio-carros');
     }
 
     function handleChecked(id: string) {
@@ -138,6 +146,74 @@ export function ListCars() {
                                                 <Button
                                                     size="sm"
                                                     fontSize={"sm"}
+                                                    colorScheme="gray"
+                                                    color={"gray.500"}
+                                                    leftIcon={<Icon as={RiFilter2Fill} fontSize="20" />}
+                                                    _hover={{
+                                                        bg: "gray.200",
+                                                    }}
+                                                    onClick={handleFilterBrands}
+                                                >
+                                                    Filtrar por Marcas
+                                                </Button>
+                                            ) : (
+                                                <Button
+                                                    size="sm"
+                                                    fontSize={"sm"}
+                                                    colorScheme="gray"
+                                                    color={"gray.500"}
+                                                    _hover={{
+                                                        bg: "gray.200",
+                                                    }}
+                                                    onClick={handleFilterBrands}
+                                                >
+                                                    <Icon as={RiFilter2Fill} fontSize="22" />
+                                                    Marcas
+                                                </Button>
+                                            )
+                                        }
+                                    </ButtonGroup>
+
+                                    <ButtonGroup>
+                                        {
+                                            isWideVersion ? (
+                                                <Button
+                                                    size="sm"
+                                                    fontSize={"sm"}
+                                                    colorScheme="gray"
+                                                    color={"gray.500"}
+                                                    leftIcon={<Icon as={RiFilter2Fill} fontSize="20" />}
+                                                    _hover={{
+                                                        bg: "gray.200",
+                                                    }}
+                                                    onClick={handleFilterTransmission}
+                                                >
+                                                    Filtrar por Câmbios
+                                                </Button>
+                                            ) : (
+                                                <Button
+                                                    size="sm"
+                                                    fontSize={"sm"}
+                                                    colorScheme="gray"
+                                                    color={"gray.500"}
+                                                    _hover={{
+                                                        bg: "gray.200",
+                                                    }}
+                                                    onClick={handleFilterTransmission}
+                                                >
+                                                    <Icon as={RiFilter2Fill} fontSize="22" />
+                                                    Câmbios
+                                                </Button>
+                                            )
+                                        }
+                                    </ButtonGroup>
+
+                                    <ButtonGroup>
+                                        {
+                                            isWideVersion ? (
+                                                <Button
+                                                    size="sm"
+                                                    fontSize={"sm"}
                                                     colorScheme="green"
                                                     leftIcon={<Icon as={RiAddLine} fontSize="20" />}
                                                     _hover={{
@@ -174,7 +250,10 @@ export function ListCars() {
                                         emptyCars === 0
                                             ?
                                             (
-                                                <EmptyCar />
+                                                <Empty
+                                                    title="Nenhum carro cadastrado"
+                                                    subtitle="Cadastrar Novo Carro"
+                                                />
                                             )
                                             :
                                             (
@@ -200,9 +279,13 @@ export function ListCars() {
                                                                         key={car.id}
                                                                         data={car}
                                                                         onClickDelete={() => handleDeleteCar(car.id)}
+
                                                                         onClickEdit={() => handleEditCar()}
+
                                                                         onClickCheck={() => handleChecked(car.id)}
+
                                                                         defaultChecked={checkedCar && selectedCarId === car.id ? true : false}
+
                                                                         isChecked={checkedCar && selectedCarId === car.id ? true : false}
                                                                     />
                                                                 )

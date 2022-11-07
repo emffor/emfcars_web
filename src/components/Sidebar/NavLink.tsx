@@ -1,7 +1,7 @@
 import { Box, Icon, Text } from "@chakra-ui/react";
 import { ElementType, ReactNode } from "react";
-import { Link, LinkProps } from "react-router-dom";
-interface NavLinkProps {
+import { Link, NavLink as NavLik, NavLinkProps } from "react-router-dom";
+interface Props {
     icon: ElementType; //quando passa o nome de um componente, ele já sabe que é um elemento
     children: ReactNode;
     color?: string;
@@ -9,14 +9,19 @@ interface NavLinkProps {
     onClick?: () => void;
 }
 
-export function NavLink({ icon, children, color, href, onClick }: NavLinkProps) {
+export function NavLink({ icon, children, color, href, onClick }: Props) {
     return (
-        <Link to={href} onClick={onClick}>
-            <Box display="flex" alignContent="center" >
+        <NavLik to={href} onClick={onClick}>
+            <Box display="flex" alignContent="center" _hover={{
+                color: color,
+                textDecoration: "none"
+            }}>
                 <Icon as={icon} fontSize="20" color={color} />
                 <Text ml="4" fontWeight="medium"> {children} </Text>
             </Box>
-        </Link>
+        </NavLik>
+
+
     );
 }
 

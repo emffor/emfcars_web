@@ -24,6 +24,7 @@ import { Sidebar } from "../../components/Sidebar";
 import api from "../../services/api";
 import { ITransmissionDTO } from "../../dtos/ITransmissionDTO";
 import { IBrandDTO } from "../../dtos/IBrandDTO";
+import { Loading } from "../../components/Form/Loading";
 
 interface ICreateCarSchema {
     modelo: string;
@@ -160,87 +161,99 @@ export function CreateCar() {
 
                     <Divider my="6" borderColor="gray.700" />
 
-                    <VStack>
-                        <SimpleGrid minChildWidth="240px" spacing={["6", "8"]} w="100%">
-                            <Input
-                                label="Modelo do veículo"
-                                type="text"
-                                {...register('modelo')}
-                                error={errors.modelo}
-                            />
+                    {
+                        isLoading
+                            ?
+                            (
+                                <Box w={"100%"} h={"25vh"}>
+                                    <Loading />
+                                </Box>
+                            )
+                            :
+                            (
+                                <VStack>
+                                    <SimpleGrid minChildWidth="240px" spacing={["6", "8"]} w="100%">
+                                        <Input
+                                            label="Modelo do veículo"
+                                            type="text"
+                                            {...register('modelo')}
+                                            error={errors.modelo}
+                                        />
 
-                            <Input
-                                label="Cor do veículo"
-                                type={'text'}
-                                {...register('cor')}
-                                error={errors.cor}
-                            />
-                        </SimpleGrid>
+                                        <Input
+                                            label="Cor do veículo"
+                                            type={'text'}
+                                            {...register('cor')}
+                                            error={errors.cor}
+                                        />
+                                    </SimpleGrid>
 
-                        <SimpleGrid minChildWidth="240px" spacing={["6", "8"]} w="100%">
-                            <Input
-                                label="Ano de fabricação"
-                                placeholder={`de 1920 até o ano ${year - 1}`}
-                                type={'number'}
-                                min={1920}
-                                max={year - 1}
-                                {...register('ano_fabricacao')}
-                                error={errors.ano_fabricacao}
-                            />
+                                    <SimpleGrid minChildWidth="240px" spacing={["6", "8"]} w="100%">
+                                        <Input
+                                            label="Ano de fabricação"
+                                            placeholder={`de 1920 até o ano ${year - 1}`}
+                                            type={'number'}
+                                            min={1920}
+                                            max={year - 1}
+                                            {...register('ano_fabricacao')}
+                                            error={errors.ano_fabricacao}
+                                        />
 
-                            <Input
-                                label="Ano do Modelo"
-                                placeholder={`de 1920 até o ano ${year}`}
-                                type={'number'}
-                                min={1920}
-                                max={year}
-                                {...register('ano_modelo')}
-                                error={errors.ano_modelo}
-                            />
+                                        <Input
+                                            label="Ano do Modelo"
+                                            placeholder={`de 1920 até o ano ${year}`}
+                                            type={'number'}
+                                            min={1920}
+                                            max={year}
+                                            {...register('ano_modelo')}
+                                            error={errors.ano_modelo}
+                                        />
 
-                        </SimpleGrid>
+                                    </SimpleGrid>
 
-                        <SimpleGrid minChildWidth="240px" spacing={["6", "8"]} w="100%">
-                            <FormControl>
-                                <FormLabel htmlFor="email">Marca do veículo</FormLabel>
-                                <Select
-                                    placeholder='Marca do veículo'
-                                    size='lg'
-                                    onChange={event => setSelectedBrand(event.target.value)}
-                                >
-                                    {
-                                        brands.map(brand => (
-                                            <option
-                                                key={brand.id} value={brand.id}
+                                    <SimpleGrid minChildWidth="240px" spacing={["6", "8"]} w="100%">
+                                        <FormControl>
+                                            <FormLabel htmlFor="email">Marca do veículo</FormLabel>
+                                            <Select
+                                                placeholder='Marca do veículo'
+                                                size='lg'
+                                                onChange={event => setSelectedBrand(event.target.value)}
                                             >
-                                                {brand.name}
-                                            </option>
-                                        ))
-                                    }
+                                                {
+                                                    brands.map(brand => (
+                                                        <option
+                                                            key={brand.id} value={brand.id}
+                                                        >
+                                                            {brand.name}
+                                                        </option>
+                                                    ))
+                                                }
 
-                                </Select>
-                            </FormControl>
+                                            </Select>
+                                        </FormControl>
 
-                            <FormControl>
-                                <FormLabel htmlFor="email">Tipo de Câmbio</FormLabel>
-                                <Select
-                                    placeholder='Tipo de Câmbio'
-                                    size='lg'
-                                    onChange={(e) => setSelectedTransmission((e.target.value))}
-                                >
-                                    {
-                                        transmissions.map(transmission => (
-                                            <option
-                                                key={transmission.id} value={transmission.id}
+                                        <FormControl>
+                                            <FormLabel htmlFor="email">Tipo de Câmbio</FormLabel>
+                                            <Select
+                                                placeholder='Tipo de Câmbio'
+                                                size='lg'
+                                                onChange={(e) => setSelectedTransmission((e.target.value))}
                                             >
-                                                {transmission.name}
-                                            </option>
-                                        ))
-                                    }
-                                </Select>
-                            </FormControl>
-                        </SimpleGrid>
-                    </VStack>
+                                                {
+                                                    transmissions.map(transmission => (
+                                                        <option
+                                                            key={transmission.id} value={transmission.id}
+                                                        >
+                                                            {transmission.name}
+                                                        </option>
+                                                    ))
+                                                }
+                                            </Select>
+                                        </FormControl>
+                                    </SimpleGrid>
+                                </VStack>
+                            )
+                    }
 
                     <Flex mt="8" justify="flex-end">
                         <HStack spacing="4">
@@ -262,7 +275,7 @@ export function CreateCar() {
                         </HStack>
                     </Flex>
                 </Box>
-            </Flex>
-        </Box>
+            </Flex >
+        </Box >
     );
 }

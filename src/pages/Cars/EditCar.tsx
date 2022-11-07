@@ -26,7 +26,7 @@ import { Loading } from "../../components/Form/Loading";
 export function EditCar() {
     const navigate = useNavigate();
     const params = useParams();
-    const [isLoading, setIsLoading] = useState(false);
+    const [isLoading, setIsLoading] = useState(true);
     const [isDisabled, setIsDisabled] = useState(true);
 
     const [transmissions, setTransmissions] = useState<ITransmissionDTO[]>([]);
@@ -42,14 +42,14 @@ export function EditCar() {
 
     const year = new Date().getFullYear() + 1;
 
-    function handleUpdateCar() {
+    async function handleUpdateCar() {
         if (isDisabled === true) {
             return alert('Aperte em editar para desbloquear os campos');
         }
 
         setIsLoading(true);
 
-        api.put(`/cars/${params.id}`, {
+        await api.put(`/cars/${params.id}`, {
             model: modelCar,
             color: colorCar,
             model_year: yearModelCar,
@@ -100,11 +100,6 @@ export function EditCar() {
                 })
         }
 
-        loadBrands();
-        loadTransmission();
-    }, [])
-
-    useEffect(() => {
         async function handleFetchCar() {
             await api.get(`/cars/${params.id}`)
                 .then(response => {
@@ -123,8 +118,12 @@ export function EditCar() {
                 })
 
         }
+
         handleFetchCar();
+        loadBrands();
+        loadTransmission();
     }, [])
+
 
     return (
         <Box>

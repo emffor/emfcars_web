@@ -2,15 +2,11 @@ import {
     Box,
     Button,
     ButtonGroup,
-    Checkbox,
     Flex,
     Heading,
     Icon,
-    Link,
     Table,
     Tbody,
-    Td,
-    Text,
     Th,
     Thead,
     Tr,
@@ -18,9 +14,9 @@ import {
 } from "@chakra-ui/react";
 
 import { useEffect, useState } from "react";
-import { BsFillTrashFill } from "react-icons/bs";
-import { RiAddLine, RiPencilLine } from "react-icons/ri";
+import { RiAddLine } from "react-icons/ri";
 import { useNavigate } from "react-router-dom";
+import { Empty } from "../../components/Empty";
 import { Loading } from "../../components/Form/Loading";
 import { Header } from "../../components/Header";
 import { Pagination } from "../../components/Pagination";
@@ -32,10 +28,16 @@ import { TableBrand } from "./TableBrand";
 
 export function ListBrands() {
     const navigate = useNavigate();
+
     const [isLoading, setIsLoading] = useState(true);
+    const [emptyBrands, setEmptyBrands] = useState(0);
 
     const [page, setPage] = useState(1);
+
     const [brands, setBrands] = useState<IBrandDTO[]>([]);
+
+    const [checkedBrand, setCheckedBrand] = useState<boolean>(false);
+    const [selectedBrandId, setSelectedBrandId] = useState('');
 
     const isWideVersion = useBreakpointValue({
         base: false,
@@ -47,7 +49,48 @@ export function ListBrands() {
     }
 
     function handleEditBrands() {
-        navigate('/marcas/editar-marca');
+        if (selectedBrandId === '') {
+            return alert('Selecione uma marca para editar');
+        }
+
+        navigate(`/marcas/editar-marca/${selectedBrandId}`);
+    }
+
+    function handleCheckBrand(id: string) {
+        if (selectedBrandId === id) {
+            setSelectedBrandId('');
+            setCheckedBrand(false);
+        } else if (selectedBrandId !== id) {
+            setSelectedBrandId(id);
+            setCheckedBrand(true);
+        } else if (selectedBrandId === '') {
+            setSelectedBrandId(id);
+            setCheckedBrand(true);
+        }
+    }
+
+    async function handleDeleteBrand(id: string) {
+        if (selectedBrandId === '') {
+            return alert('Selecione uma marca para excluir');
+        }
+
+        setIsLoading(true);
+
+        await api.delete(`/brands/${id}`)
+            .then(response => {
+                console.log(response);
+                alert('Marca deletada com sucesso!');
+                window.location.reload();
+            })
+            .catch(error => {
+                console.log(error.response.data.message);
+                if (error.response.data.message === 'Brand cannot be removed because it has cars associated with it!') {
+                    alert('Não é possível deletar uma marca associados carros');
+                }
+            })
+            .finally(() => {
+                setIsLoading(false);
+            })
     }
 
     useEffect(() => {
@@ -55,6 +98,7 @@ export function ListBrands() {
             await api.get('/brands')
                 .then(response => {
                     setBrands(response.data);
+                    setEmptyBrands(response.data.length);
                 }).catch(error => {
                     console.log(error);
                 }).finally(() => {
@@ -124,29 +168,47 @@ export function ListBrands() {
                                     variant="simple"
                                     color="gray.500"
                                 >
-                                    <Thead>
-                                        <Tr>
-                                            <Th px={["4", "4", "6"]} color="gray.900" width="8"></Th>
-                                            <Th>Nome da Marca</Th>
-                                            <Th>Descrição</Th>
-                                            <Th w={"8"}></Th>
-                                        </Tr>
-                                    </Thead>
+                                    {
+                                        emptyBrands === 0
+                                            ?
+                                            (
+                                                <Empty
+                                                    title="Nenhuma marca cadastrada"
+                                                    subtitle="Cadastrar Nova marca"
+                                                />
+                                            )
+                                            :
+                                            (
+                                                <>
+                                                    <Thead>
+                                                        <Tr>
+                                                            <Th px={["4", "4", "6"]} color="gray.900" width="8"></Th>
+                                                            <Th>Nome da Marca</Th>
+                                                            <Th>Descrição</Th>
+                                                            <Th w={"8"}></Th>
+                                                        </Tr>
+                                                    </Thead>
 
-                                    <Tbody>
-                                        {
-                                            brands.slice((page - 1) * Environment.LINHA_DE_LINHAS, page * Environment.LINHA_DE_LINHAS).map(brand => {
-                                                return (
-                                                    <TableBrand
-                                                        key={brand.id}
-                                                        data={brand}
-                                                        onClickDelete={() => console.log('delete')}
-                                                        onClickEdit={() => console.log('edit')}
-                                                    />
-                                                )
-                                            })
-                                        }
-                                    </Tbody>
+                                                    <Tbody>
+                                                        {
+                                                            brands.slice((page - 1) * Environment.LINHA_DE_LINHAS, page * Environment.LINHA_DE_LINHAS).map(brand => {
+                                                                return (
+                                                                    <TableBrand
+                                                                        key={brand.id}
+                                                                        data={brand}
+                                                                        onClickDelete={() => handleDeleteBrand(brand.id)}
+                                                                        onClickEdit={() => handleEditBrands()}
+                                                                        onClickCheck={() => handleCheckBrand(brand.id)}
+                                                                        defaultChecked={checkedBrand && selectedBrandId === brand.id ? true : false}
+                                                                        isChecked={checkedBrand && selectedBrandId === brand.id ? true : false}
+                                                                    />
+                                                                )
+                                                            })
+                                                        }
+                                                    </Tbody>
+                                                </>
+                                            )
+                                    }
                                 </Table>
 
                                 <Pagination

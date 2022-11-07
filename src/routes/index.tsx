@@ -6,6 +6,8 @@ import { EditBrand } from '../pages/Brands/EditBrand';
 import { ListCars } from '../pages/Cars';
 import { CreateCar } from '../pages/Cars/CreateCar';
 import { EditCar } from '../pages/Cars/EditCar';
+import { FilterBrand } from '../pages/Cars/FilterBrand';
+import { FilterTransmission } from '../pages/Cars/FilterTransmission';
 
 import { Dashboard } from '../pages/Dashboard';
 import { Home } from '../pages/Home'
@@ -24,12 +26,16 @@ export function AppRoutes() {
             <Route path="/carros/cadastrar-carro" element={<CreateCar />} />
             <Route path="/carros/editar-carro" element={<EditCar />} />
             <Route path="/carros/editar-carro/:id" element={<EditCar />} />
+            <Route path="/carros/filtrar-marcas-carros" element={<FilterBrand />} />
+            <Route path="/carros/filtrar-cambio-carros" element={<FilterTransmission />} />
             <Route path="/marcas" element={<ListBrands />} />
             <Route path="/marcas/cadastrar-marca" element={<CreateBrand />} />
             <Route path="/marcas/editar-marca" element={<EditBrand />} />
+            <Route path="/marcas/editar-marca/:id" element={<EditBrand />} />
             <Route path="/cambios" element={<ListTransmissions />} />
             <Route path="/cambios/cadastrar-cambio" element={<CreateTransmission />} />
             <Route path="/cambios/editar-cambio" element={<EditTransmission />} />
+            <Route path="/cambios/editar-cambio/:id" element={<EditTransmission />} />
             <Route path="*" element={<Navigate to="/" />} />
         </Routes>
     );
