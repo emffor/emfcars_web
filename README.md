@@ -12,7 +12,7 @@ WEB emfcars é um projeto do teste READI.docpronto o qual teve como objetivos:
 
 1 - Para executar esta aplicação, você precisará ter instalado no seu computador:
 
-- [React](https://git-scm.com/doc)
+- [React](https://reactjs.org/)
 
 # Instalar database
 
